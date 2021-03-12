@@ -1,0 +1,286 @@
+// -*- c -*-
+
+INST(beq, <7.bimm12hi><5.rs2><5.rs1>000<5.bimm12lo>1100011) {
+    EXECUTE() {
+        if (GPR[rs1] == GPR[rs2])
+            JUMP_TO(PC + simm32);
+    }
+}
+
+INST(bne, <7.bimm12hi><5.rs2><5.rs1>001<5.bimm12lo>1100011) {
+    EXECUTE() {
+        if (GPR[rs1] != GPR[rs2])
+            JUMP_TO(PC + simm32);
+    }
+}
+
+INST(blt, <7.bimm12hi><5.rs2><5.rs1>100<5.bimm12lo>1100011) {
+    EXECUTE() {
+        signed_reg_t value_rs1 = GPR[rs1];
+        signed_reg_t value_rs2 = GPR[rs2];
+        if (value_rs1 < value_rs2)
+            JUMP_TO(PC + simm32);
+    }
+}
+
+INST(bge, <7.bimm12hi><5.rs2><5.rs1>101<5.bimm12lo>1100011) {
+    EXECUTE() {
+        signed_reg_t value_rs1 = GPR[rs1];
+        signed_reg_t value_rs2 = GPR[rs2];
+        if (value_rs1 >= value_rs2)
+            JUMP_TO(PC + simm32);
+    }
+}
+
+INST(bltu, <7.bimm12hi><5.rs2><5.rs1>110<5.bimm12lo>1100011) {
+    EXECUTE() {
+        unsigned_reg_t value_rs1 = GPR[rs1];
+        unsigned_reg_t value_rs2 = GPR[rs2];
+        if (value_rs1 < value_rs2)
+            JUMP_TO(PC + simm32);
+    }
+}
+
+INST(bgeu, <7.bimm12hi><5.rs2><5.rs1>111<5.bimm12lo>1100011) {
+    EXECUTE() {
+        unsigned_reg_t value_rs1 = GPR[rs1];
+        unsigned_reg_t value_rs2 = GPR[rs2];
+        if (value_rs1 >= value_rs2)
+            JUMP_TO(PC + simm32);
+    }
+}
+
+INST(jalr, <12.imm12><5.rs1>000<5.rd>1100111) {
+    EXECUTE() {
+        GPR[rd] = PC + 4;
+        JUMP_TO(GPR[rs1] + simm32);
+    }
+}
+
+INST(jal, <20.jimm20><5.rd>1101111) {
+    CLASS(j_type);
+    EXECUTE() {
+        GPR[rd] = PC + 4;
+        JUMP_TO(PC + simm32);
+    }
+}
+
+INST(lui, <20.imm20><5.rd>0110111) {
+    EXECUTE() {
+        GPR[rd] = simm32;
+    }
+}
+
+INST(auipc, <20.imm20><5.rd>0010111) {
+    EXECUTE() {
+        GPR[rd] = PC + simm32;
+    }
+}
+
+INST(addi, <12.imm12><5.rs1>000<5.rd>0010011) {
+    EXECUTE() {
+        GPR[rd] = GPR[rs1] + simm32;
+    }
+}
+
+INST(slli, 000000<6.shamt><5.rs1>001<5.rd>0010011) {
+    EXECUTE() {
+        GPR[rd] = GPR[rs1] << shamt;
+    }
+}
+
+INST(slti, <12.imm12><5.rs1>010<5.rd>0010011) {
+    EXECUTE() {
+        signed_reg_t value_rs1 = GPR[rs1];
+        GPR[rd] = value_rs1 < simm32 ? 1 : 0;
+    }
+}
+
+INST(sltiu, <12.imm12><5.rs1>011<5.rd>0010011) {
+    EXECUTE() {
+        unsigned_reg_t value_rs1 = GPR[rs1];
+        unsigned_reg_t uimm = simm32;
+        GPR[rd] = value_rs1 < uimm ? 1 : 0;
+    }
+}
+
+INST(xori, <12.imm12><5.rs1>100<5.rd>0010011) {
+    EXECUTE() {
+        GPR[rd] = GPR[rs1] ^ simm32;
+    }
+}
+
+INST(srli, 000000<6.shamt><5.rs1>101<5.rd>0010011) {
+    EXECUTE() {
+        unsigned_reg_t value_rs1 = GPR[rs1];
+        GPR[rd] = value_rs1 >> shamt;
+    }
+}
+
+INST(srai, 010000<6.shamt><5.rs1>101<5.rd>0010011) {
+    EXECUTE() {
+        signed_reg_t value_rs1 = GPR[rs1];
+        GPR[rd] = value_rs1 >> shamt;
+    }
+}
+
+INST(ori, <12.imm12><5.rs1>110<5.rd>0010011) {
+    EXECUTE() {
+        GPR[rd] = GPR[rs1] | simm32;
+    }
+}
+
+INST(andi, <12.imm12><5.rs1>111<5.rd>0010011) {
+    EXECUTE() {
+        GPR[rd] = GPR[rs1] & simm32;
+    }
+}
+
+INST(add, 0000000<5.rs2><5.rs1>000<5.rd>0110011) {
+    EXECUTE() {
+        GPR[rd] = GPR[rs1] + GPR[rs2];
+    }
+}
+
+INST(sub, 0100000<5.rs2><5.rs1>000<5.rd>0110011) {
+    EXECUTE() {
+        GPR[rd] = GPR[rs1] - GPR[rs2];
+    }
+}
+
+INST(sll, 0000000<5.rs2><5.rs1>001<5.rd>0110011) {
+    EXECUTE() {
+        unsigned amt = GPR[rs2] & 0x1F;
+        GPR[rd] = GPR[rs1] << amt;
+    }
+}
+
+INST(slt, 0000000<5.rs2><5.rs1>010<5.rd>0110011) {
+    EXECUTE() {
+        signed_reg_t value_rs1 = GPR[rs1];
+        signed_reg_t value_rs2 = GPR[rs2];
+        GPR[rd] = value_rs1 < value_rs2;
+    }
+}
+
+INST(sltu, 0000000<5.rs2><5.rs1>011<5.rd>0110011) {
+    EXECUTE() {
+        unsigned_reg_t value_rs1 = GPR[rs1];
+        unsigned_reg_t value_rs2 = GPR[rs2];
+        GPR[rd] = value_rs1 < value_rs2;
+    }
+}
+
+INST(xor, 0000000<5.rs2><5.rs1>100<5.rd>0110011) {
+    EXECUTE() {
+        GPR[rd] = GPR[rs1] ^ GPR[rs2];
+    }
+}
+
+INST(srl, 0000000<5.rs2><5.rs1>101<5.rd>0110011) {
+    EXECUTE() {
+        unsigned amt = GPR[rs2] & 0x1F;
+        GPR[rd] = GPR[rs1] >> amt;
+    }
+}
+
+INST(sra, 0100000<5.rs2><5.rs1>101<5.rd>0110011) {
+    EXECUTE() {
+        signed_reg_t value_rs1 = GPR[rs1];
+        unsigned amt = GPR[rs2] & 0x1F;
+        GPR[rd] = value_rs1 >> amt;
+    }
+}
+
+INST(or, 0000000<5.rs2><5.rs1>110<5.rd>0110011) {
+    EXECUTE() {
+        GPR[rd] = GPR[rs1] | GPR[rs2];
+    }
+}
+
+INST(and, 0000000<5.rs2><5.rs1>111<5.rd>0110011) {
+    EXECUTE() {
+        GPR[rd] = GPR[rs1] & GPR[rs2];
+    }
+}
+
+INST(lb, <12.imm12><5.rs1>000<5.rd>0000011) {
+    EXECUTE() {
+        int8 data;
+        reg_t addr = GPR[rs1] + simm32;
+        MemoryAccess(Store, addr, &data, 1);
+        GPR[rd] = data;
+    }
+}
+
+INST(lh, <12.imm12><5.rs1>001<5.rd>0000011) {
+    EXECUTE() {
+        int16 data;
+        reg_t addr = GPR[rs1] + simm32;
+        MemoryAccess(Load, addr, &data, 2);
+        GPR[rd] = data;
+    }
+}
+
+INST(lw, <12.imm12><5.rs1>010<5.rd>0000011) {
+    EXECUTE() {
+        int32 data;
+        reg_t addr = GPR[rs1] + simm32;
+        MemoryAccess(Load, addr, &data, 4);
+        GPR[rd] = data;
+    }
+}
+
+INST(lbu, <12.imm12><5.rs1>100<5.rd>0000011) {
+    EXECUTE() {
+        uint8 data;
+        reg_t addr = GPR[rs1] + simm32;
+        MemoryAccess(Load, addr, &data, 1);
+        GPR[rd] = data;
+    }
+}
+
+INST(lhu, <12.imm12><5.rs1>101<5.rd>0000011) {
+    EXECUTE() {
+        uint16 data;
+        reg_t  addr = GPR[rs1] + simm32;
+        MemoryAccess(Load, addr, &data, 2);
+        GPR[rd] = data;
+    }
+}
+
+INST(sb, <7.imm12hi><5.rs2><5.rs1>000<5.imm12lo>0100011) {
+    EXECUTE() {
+        uint8 data = GPR[rs2];
+        reg_t addr = GPR[rs1] + simm32;
+        MemoryAccess(Store, addr, &data, 1);
+    }
+}
+
+INST(sh, <7.imm12hi><5.rs2><5.rs1>001<5.imm12lo>0100011) {
+    EXECUTE() {
+        uint16 data = GPR[rs2];
+        reg_t  addr = GPR[rs1] + simm32;
+        MemoryAccess(Store, addr, &data, 2);
+    }
+}
+
+INST(sw, <7.imm12hi><5.rs2><5.rs1>010<5.imm12lo>0100011) {
+    EXECUTE() {
+        uint32 data = GPR[rs2];
+        reg_t  addr = GPR[rs1] + simm32;
+        MemoryAccess(Store, addr, &data, 4);
+    }
+}
+
+INST(fence, <4.fm><4.pred><4.succ><5.rs1>000<5.rd>0001111) {
+    EXECUTE() {
+        // nothing.
+    }
+}
+
+INST(fence.i, <12.imm12><5.rs1>001<5.rd>0001111) {
+    EXECUTE() {
+        // nothing
+    }
+}

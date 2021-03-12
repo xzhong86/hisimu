@@ -1,0 +1,56 @@
+// -*- c -*-
+
+
+INST_CLASS(r_type, <7.funct7><5.rs2><5.rs1><3.funct3><5.rd><7.opcode>) {
+    DISASM() {
+        ASM_FORMAT("[inst] [rd], [rs1], [rs2]");
+    }
+}
+
+INST_CLASS(i_type, <12.imm11_0><5.rs1><3.funct3><5.rd><7.opcode>) {
+    DECODE() {
+        simm32 = SIGN_EXT(imm11_0, 11);
+    }
+    DISASM() {
+        ASM_FORMAT("[inst] [rd], [rs1], %d", simm32);
+    }
+}
+
+INST_CLASS(s_type, <7.imm11_5><5.rs2><5.rs1><3.funct3><5.imm4_0><7.opcode>) {
+    DECODE() {
+        simm32 = SIGN_EXT((imm11_5 << 5) | imm4_0, 11);
+    }
+    DISASM() {
+        ASM_FORMAT("[inst] [rs2], [rs1], %d", simm32);
+    }
+}
+
+INST_CLASS(b_type, <1.imm12><6.imm10_5><5.rs2><5.rs1><3.funct3><4.imm4_1><1.imm11><7.opcode>) {
+    DECODE() {
+        simm32 = (imm4_1 << 1) | (imm10_5 << 5) | (imm11 << 11) | (imm12 << 12);
+        simm32 = SIGN_EXT(simm32, 12);
+    }
+    DISASM() {
+        ASM_FORMAT("[inst] [rs1], [rs2], %lx", PC + simm32);
+    }
+}
+
+INST_CLASS(u_type, <20.imm31_12><5.rd><7.opcode>) {
+    DECODE() {
+        simm32 = imm31_12 << 12;
+    }
+    DISASM() {
+        ASM_FORMAT("[inst] [rd], %lx", simm32);
+    }
+}
+
+INST_CLASS(j_type, <1.imm20><10.imm10_1><1.imm11><8.imm19_12><5.rd><7.opcode>) {
+    DECODE() {
+        simm32 = (imm20 << 20) | (imm19_12 << 12) | (imm11 << 11) | (imm10_1 << 1);
+        simm32 = SIGN_EXT(simm32, 20);
+    }
+    DISASM() {
+        ASM_FORMAT("[inst] [rd], %lx", simm32);
+    }
+}
+
