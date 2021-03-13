@@ -7,14 +7,20 @@ class ISAParser::ISAInstInfo
 
   def gen_decode(out, dec_info = nil)
     bitfield = decode_code ? @bitfield : @class.bitfield
-    bitfield.fields.each do |field|
-      if field.name
-        out.puts "uint32 %s = BITS_EXTRA(inst_code, %d, %d);" % [ field.name, field.lo, field.width ]
+    fields_names = []
+    (@bitfield.fields + @class.bitfield.fields).each do |field|
+      name = field.name
+      if name and not fields_names.include?(name)
+        out.puts "uint32 %s = EXTRACT_BITS(inst_code, %d, %d);" % [ name, field.lo, field.width ]
+        fields_names << name
       end
     end
+
     out.puts "int32 simm32 = 0;"
     out.puts "uint32 uimm32 = 0;"
-    out.puts(decode_code || @class.decode_code)
+
+    out.puts(decode_code || @class.decode_code) # decode code
+
     if dec_info
       info_fields = %w[ rd rs1 rs2 ]
       bitfield.fields.each do |field|
@@ -70,17 +76,20 @@ class RiscvISAInfo
 
 end
 
-def gen_decode_code(out, inst)
-  puts inst.class.name + ':' + inst.name
-  inst.gen_decode_fun(out)
-  out.puts inst.execute_code
+def gen_decode_file(out, isa)
+end
+
+def gen_decode_exec_file(out, isa)
+  $opts.headers.each { |h| out.puts "#include <#{h}>" }
+  isa.insts.each{ |inst| inst.gen_decode_exec_fun(out); out.puts "" }
 end
 
 # main
 $opts = OpenStruct.new
-outdir = nil
+$opts.headers = []
 OptionParser.new do |op|
   op.banner = "gen-c-code.rb"
+  op.on('--headers HEADER[,HEADER]', "gen include header") { |hs| $opts.headers += hs.split(',')}
   op.on('-o', '--output FILE', "set output file") { |f| $opts.out = f }
 end.parse!
 
@@ -94,7 +103,12 @@ isa = RiscvISAInfo.new(parser.insts)
 
 out = $opts.out ? File.open($opts.out, 'w') : $stdout
 
-isa.insts.each{ |inst| inst.gen_decode_exec_fun(out); out.puts "" }
+if $opts.headers.empty?
+  $opts.headers = [ "arch/riscv/cpu.h", "arch/riscv/isa-helper.h" ]
+end
+
+gen_decode_exec_file(out, isa)
+
 #inst = isa.insts.first
 #inst.gen_decode_exec_fun(out)
 
