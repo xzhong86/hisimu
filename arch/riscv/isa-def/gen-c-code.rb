@@ -1,6 +1,8 @@
 require 'ISAParser'
+
 require 'optparse'
 require 'ostruct'
+require 'erb'
 
 class ISAParser::ISAInstInfo
   attr_accessor :class
@@ -33,19 +35,26 @@ class ISAParser::ISAInstInfo
       out.puts "if (uimm32) #{dec_info}.uimm32 = uimm32;"
     end
   end
-  def func_name
-    @name.gsub(/[.-]/, '_')
+  def gen_decode_fun(decl = false)
+    func = "void riscv_decode_#{c_name}(uint32 inst_code, struct dec_info *info)"
+    if decl
+      out.puts "extern #{func};"
+    else
+      out.puts "#{func}\n{"
+      gen_decode(out, "info")
+      out.puts "}"
+    end
   end
-  def gen_decode_fun(out)
-    out.puts "void riscv_decode_#{func_name}(uint32 inst_code, struct dec_info *info)\n{"
-    gen_decode(out, "info")
-    out.puts "}"
-  end
-  def gen_decode_exec_fun(out)
-    out.puts "void riscv_decode_exec_#{func_name}(CPUState *cpu, uint32 inst_code)\n{"
-    gen_decode(out)
-    out.puts execute_code()
-    out.puts "}"
+  def gen_decode_exec_fun(out, decl = false)
+    func = "void riscv_decode_exec_#{c_name}(CPUState *cpu, uint32_t inst_code)"
+    if decl
+      out.puts "extern #{func};"
+    else
+      out.puts "#{func}\n{"
+      gen_decode(out)
+      out.puts execute_code()
+      out.puts "}"
+    end
   end
 end
 
@@ -84,12 +93,22 @@ def gen_decode_exec_file(out, isa)
   isa.insts.each{ |inst| inst.gen_decode_exec_fun(out); out.puts "" }
 end
 
+def gen_by_temp(out, isa)
+  b = binding
+  erb_out = ""
+  erb = ERB.new(IO.read($opts.temp), nil, nil, "erb_out")
+  erb.result(b)
+  out.puts erb_out
+end
+
 # main
 $opts = OpenStruct.new
 $opts.headers = []
 OptionParser.new do |op|
   op.banner = "gen-c-code.rb"
   op.on('--headers HEADER[,HEADER]', "gen include header") { |hs| $opts.headers += hs.split(',')}
+  op.on('-T', '--temp TEMP', 'template file') { |t| $opts.temp = t }
+  op.on('-G', '--gen TYPE', 'generate file of TYPE') { |t| $opts.gtype = t }
   op.on('-o', '--output FILE', "set output file") { |f| $opts.out = f }
 end.parse!
 
@@ -107,8 +126,14 @@ if $opts.headers.empty?
   $opts.headers = [ "arch/riscv/cpu.h", "arch/riscv/isa-helper.h" ]
 end
 
-gen_decode_exec_file(out, isa)
 
-#inst = isa.insts.first
-#inst.gen_decode_exec_fun(out)
+if $opts.temp
+  gen_by_temp(out, isa)
+end
+
+if $opts.gtype
+  eval "gen_#{$opts.gtype}_file(out, isa)"
+  #gen_decode_exec_file(out, isa)
+end
+
 
