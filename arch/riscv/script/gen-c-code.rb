@@ -105,18 +105,19 @@ end
 $opts = OpenStruct.new
 $opts.headers = []
 OptionParser.new do |op|
-  op.banner = "gen-c-code.rb"
+  op.banner = "gen-c-code.rb [options] DEF_FILES"
   op.on('--headers HEADER[,HEADER]', "gen include header") { |hs| $opts.headers += hs.split(',')}
   op.on('-T', '--temp TEMP', 'template file') { |t| $opts.temp = t }
   op.on('-G', '--gen TYPE', 'generate file of TYPE') { |t| $opts.gtype = t }
   op.on('-o', '--output FILE', "set output file") { |f| $opts.out = f }
 end.parse!
 
-dir = File.dirname __FILE__
+fail "Need ISA DEF Files" if ARGV.empty?
 
 parser = ISAParser.new
-parser.scan_file(dir + '/op-class.def')
-parser.scan_file(dir + '/op-01-rv32i.def')
+ARGV.each{ |f| parser.scan_file(f) }
+#parser.scan_file(dir + '/op-class.def')
+#parser.scan_file(dir + '/op-01-rv32i.def')
 
 isa = RiscvISAInfo.new(parser.insts)
 
