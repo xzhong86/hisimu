@@ -27,3 +27,4 @@ gen/simple-decoder.c : simple-decoder-temp.c
 
 clean :
 	rm gen/* *.o test.elf
+

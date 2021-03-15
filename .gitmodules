@@ -1,9 +1,13 @@
 [submodule "base/elf-loader"]
 	path = base/elf-loader
 	url = https://github.com/xzhong86/simu-elf-loader.git
+	ignore = untracked
 [submodule "base/mem-image"]
 	path = base/mem-image
 	url = https://github.com/xzhong86/simu-mem-image.git
+	ignore = untracked
 [submodule "utils/isa-parser"]
 	path = utils/isa-parser
 	url = https://github.com/xzhong86/simu-isa-parser.git
+	ignore = untracked
+
