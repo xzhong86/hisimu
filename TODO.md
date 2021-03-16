@@ -4,8 +4,11 @@
  1. [done] 使用ISAParser生成 RV32i指令的 decode/execute 代码 （decode和execute代码合在一起，完成指令的执行）
  1. [done] 准备环境，如 GPR, MemoryAccess , SING_EXT 等 函数/宏，使指令代码可以编译通过
  1. [done] 通过简单的mask 匹配完成指令的解码和匹配 （decoder）
- 1. 整合编译，完成一个简单的ELF加载和执行。
+ 1. [done] 整合编译，完成一个简单的ELF加载和执行。
  1. ISAParser: 解决racc语法 里面的 shift/reduce conflicts 问题
+ 1. 添加基于ISA-Def的指令二进制生成API。
+ 1. 基于指令码生成API的指令测试代码。
+ 1. 完善disasm 反汇编流程，可以将执行的指令的反汇编打印出来。
 
 ## 远期计划：
  1. 实现自动生成decode tree， 优化decoder代码。
