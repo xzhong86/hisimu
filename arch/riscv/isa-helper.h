@@ -1,6 +1,10 @@
 
 #pragma once
 
+#ifdef __cplusplus
+#error "Could NOT include isa-helper.h in C++ project"
+#endif
+
 typedef int8_t  int8;
 typedef int16_t int16;
 typedef int32_t int32;
