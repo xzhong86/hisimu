@@ -38,6 +38,7 @@ public:
     CPU();
     CPUState *getCPUState() { return &cpu_; }
     void setPC(uint64_t pc) { cpu_.pc = pc; }
+    uint64_t getPC() const  { return cpu_.pc; }
 
     void step(int n); // execute n instructions
     //void run();       // run unlimited

@@ -34,6 +34,9 @@ void CPU::step(int n)
 
         if (getCB().afterExecInst)
             getCB().afterExecInst(this, inst);
+
+        if (cpu_.pc == pc)
+            cpu_.pc += 4;
     }
 }
 

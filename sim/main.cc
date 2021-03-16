@@ -3,6 +3,8 @@
 #include <base/elf-loader/ExeLoader.h>
 #include <base/mem-image/MemImage.h>
 
+#include <iostream>
+
 using namespace NS_ExeLoader;
 using namespace NS_MemImage;
 
@@ -41,7 +43,13 @@ int main()
     cpu_cb.writeMemory = [mim](CPU*,uint64_t pa,void *buf,int size) {
         mim->writeMem(pa, buf, size);
     };
+
+    //cpu_cb.beforeExecInst = [](CPU *cpu, uint32_t inst) {
+    //    std::cout << "exec PC=" << std::hex << cpu->getPC()
+    //              << ", inst=" << inst << std::endl;
+    //};
     cpu->setCallBack(cpu_cb);
 
-    cpu->step(100);
+    cpu->setPC(loader->getEntryPoint());
+    cpu->step(1000 * 10000); // finish in 1.99 seconds, about 5MIPS speed.
 }
