@@ -11,3 +11,6 @@
 	url = https://github.com/xzhong86/simu-isa-parser.git
 	ignore = untracked
 
+[submodule "utils/utest"]
+	path = utils/utest
+	url = https://github.com/sheredom/utest.h.git
