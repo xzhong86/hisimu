@@ -25,3 +25,4 @@ int main()
     CPU *cpu = new CPU();
     sanity_test(cpu);
 }
+
