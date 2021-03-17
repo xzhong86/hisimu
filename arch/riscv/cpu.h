@@ -36,7 +36,8 @@ class CPU {
     CPUState cpu_;
 public:
     CPU();
-    CPUState *getCPUState() { return &cpu_; }
+
+    CPUState *getCPU()      { return &cpu_; }
     void setPC(uint64_t pc) { cpu_.pc = pc; }
     uint64_t getPC() const  { return cpu_.pc; }
 
