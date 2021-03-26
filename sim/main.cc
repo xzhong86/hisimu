@@ -18,6 +18,10 @@ int main()
 
     // hello.elf is compiled from test/riscv/hello-asm
     ExeLoader *loader = createExeLoader("hello.elf");
+    if (!loader) {
+	std::cout << "Load ELF file failed.\n";
+	return 1;
+    }
 
     ExeLoader::CallBack ld_cb;
     ld_cb.loadData = [mim](uint64_t pa, void* data, uint32_t size, prop_t){
@@ -50,6 +54,8 @@ int main()
     //};
     cpu->setCallBack(cpu_cb);
 
+    std::cout << "Start simulation with PC=" << std::hex << loader->getEntryPoint()
+	      << std::dec << std::endl;
     cpu->setPC(loader->getEntryPoint());
     cpu->step(1000 * 10000); // finish in 1.99 seconds, about 5MIPS speed.
 }

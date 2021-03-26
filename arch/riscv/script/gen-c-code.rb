@@ -3,6 +3,7 @@ require 'ISAParser'
 require 'optparse'
 require 'ostruct'
 require 'erb'
+require 'stringio'
 
 class ISAParser::ISAInstInfo
   attr_accessor :class
