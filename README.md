@@ -2,7 +2,15 @@
 
 High-Speed Simulator.
 
+## Requirements
+
+ * CMake 3.10
+ * racc, install with `gem install racc`
+ * riscv toolchain, for compiling test case.
+
+
 ## Build
+
 update submodule:
   `git submodule update --init --recursive`
 

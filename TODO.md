@@ -9,6 +9,7 @@
  1. 添加命令行处理模块
 
 ## 远期计划：
+ 1. 使用RISCV的测试用例测试指令功能。[RISC-V tests](https://github.com/riscv/riscv-tests)
  1. 实现自动生成decode tree， 优化decoder代码。
  1. 分离 decode 过程和 execute 过程，添加指令decode info cache， 优化执行速度。
  1. 测试 clang 或者 mir 动态编译过程， 将多条指令的 执行代码合并到一起， 编译成一个bb块，整体执行。（跳转指令总是跳出来到环境里面）
