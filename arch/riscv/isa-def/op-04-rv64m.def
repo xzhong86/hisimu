@@ -1,0 +1,25 @@
+
+INST(mulw, 0000001<5.rs2><5.rs1>000<5.rd>0111011) {
+    EXECUTE() {
+    }
+}
+
+INST(divw, 0000001<5.rs2><5.rs1>100<5.rd>0111011) {
+    EXECUTE() {
+    }
+}
+
+INST(divuw, 0000001<5.rs2><5.rs1>101<5.rd>0111011) {
+    EXECUTE() {
+    }
+}
+
+INST(remw, 0000001<5.rs2><5.rs1>110<5.rd>0111011) {
+    EXECUTE() {
+    }
+}
+
+INST(remuw, 0000001<5.rs2><5.rs1>111<5.rd>0111011) {
+    EXECUTE() {
+    }
+}

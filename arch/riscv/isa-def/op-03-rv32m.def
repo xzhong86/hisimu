@@ -1,0 +1,40 @@
+
+INST(mul, 0000001<5.rs2><5.rs1>000<5.rd>0110011) {
+    EXECUTE() {
+    }
+}
+
+INST(mulh, 0000001<5.rs2><5.rs1>001<5.rd>0110011) {
+    EXECUTE() {
+    }
+}
+
+INST(mulhsu, 0000001<5.rs2><5.rs1>010<5.rd>0110011) {
+    EXECUTE() {
+    }
+}
+
+INST(mulhu, 0000001<5.rs2><5.rs1>011<5.rd>0110011) {
+    EXECUTE() {
+    }
+}
+
+INST(div, 0000001<5.rs2><5.rs1>100<5.rd>0110011) {
+    EXECUTE() {
+    }
+}
+
+INST(divu, 0000001<5.rs2><5.rs1>101<5.rd>0110011) {
+    EXECUTE() {
+    }
+}
+
+INST(rem, 0000001<5.rs2><5.rs1>110<5.rd>0110011) {
+    EXECUTE() {
+    }
+}
+
+INST(remu, 0000001<5.rs2><5.rs1>111<5.rd>0110011) {
+    EXECUTE() {
+    }
+}
