@@ -1,40 +1,70 @@
+// -*- C -*-
 
 INST(mul, 0000001<5.rs2><5.rs1>000<5.rd>0110011) {
     EXECUTE() {
+	GPR[rd] = GPR[rs1] * GPR[rs2];
     }
 }
 
 INST(mulh, 0000001<5.rs2><5.rs1>001<5.rd>0110011) {
     EXECUTE() {
+	signed_reg_t src1 = GPR[rs1];
+	signed_reg_t src2 = GPR[rs2];
+	__int128 val  = src1 * src2;
+	GPR[rd] = val >> 64;
     }
 }
 
 INST(mulhsu, 0000001<5.rs2><5.rs1>010<5.rd>0110011) {
     EXECUTE() {
+	signed_reg_t   src1 = GPR[rs1];
+	unsigned_reg_t src2 = GPR[rs2];
+	__int128 val  = src1 * src2;
+	GPR[rd] = val >> 64;
     }
 }
 
 INST(mulhu, 0000001<5.rs2><5.rs1>011<5.rd>0110011) {
     EXECUTE() {
+	unsigned_reg_t src1 = GPR[rs1];
+	unsigned_reg_t src2 = GPR[rs2];
+	unsigned __int128 val  = src1 * src2;
+	GPR[rd] = val >> 64;
     }
 }
 
 INST(div, 0000001<5.rs2><5.rs1>100<5.rd>0110011) {
     EXECUTE() {
+	signed_reg_t src1 = GPR[rs1];
+	signed_reg_t src2 = GPR[rs2];
+	signed_reg_t val  = src1 / src2;
+	GPR[rd] = val;
     }
 }
 
 INST(divu, 0000001<5.rs2><5.rs1>101<5.rd>0110011) {
     EXECUTE() {
+	unsigned_reg_t src1 = GPR[rs1];
+	unsigned_reg_t src2 = GPR[rs2];
+	unsigned_reg_t val  = src1 / src2;
+	GPR[rd] = val;
     }
 }
 
 INST(rem, 0000001<5.rs2><5.rs1>110<5.rd>0110011) {
     EXECUTE() {
+	signed_reg_t src1 = GPR[rs1];
+	signed_reg_t src2 = GPR[rs2];
+	signed_reg_t val  = src1 % src2;
+	GPR[rd] = val;
     }
 }
 
 INST(remu, 0000001<5.rs2><5.rs1>111<5.rd>0110011) {
     EXECUTE() {
+	unsigned_reg_t src1 = GPR[rs1];
+	unsigned_reg_t src2 = GPR[rs2];
+	unsigned_reg_t val  = src1 % src2;
+	GPR[rd] = val;
     }
 }

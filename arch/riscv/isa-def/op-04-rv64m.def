@@ -1,25 +1,46 @@
+// -*- C -*-
 
 INST(mulw, 0000001<5.rs2><5.rs1>000<5.rd>0111011) {
     EXECUTE() {
+	int32 src1 = GPR[rs1];
+	int32 src2 = GPR[rs2];
+	int32 val  = src1 * src2;
+	GPR[rd] = val;
     }
 }
 
 INST(divw, 0000001<5.rs2><5.rs1>100<5.rd>0111011) {
     EXECUTE() {
+	int32 src1 = GPR[rs1];
+	int32 src2 = GPR[rs2];
+	int32 val  = src1 / src2;
+	GPR[rd] = val;
     }
 }
 
 INST(divuw, 0000001<5.rs2><5.rs1>101<5.rd>0111011) {
     EXECUTE() {
+	uint32 src1 = GPR[rs1];
+	uint32 src2 = GPR[rs2];
+	int32 val   = src1 * src2;
+	GPR[rd] = val;
     }
 }
 
 INST(remw, 0000001<5.rs2><5.rs1>110<5.rd>0111011) {
     EXECUTE() {
+	int32 src1 = GPR[rs1];
+	int32 src2 = GPR[rs2];
+	int32 val  = src1 % src2;
+	GPR[rd] = val;
     }
 }
 
 INST(remuw, 0000001<5.rs2><5.rs1>111<5.rd>0111011) {
     EXECUTE() {
+	uint32 src1 = GPR[rs1];
+	uint32 src2 = GPR[rs2];
+	int32 val   = src1 % src2;
+	GPR[rd] = val;
     }
 }
