@@ -6,6 +6,9 @@
 
 #ifdef __cplusplus
 namespace riscv {
+static const unsigned XLEN = 64;
+#else
+#define XLEN 64
 #endif
 
 typedef int64_t  signed_reg_t;

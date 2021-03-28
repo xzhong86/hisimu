@@ -150,7 +150,7 @@ INST(sub, 0100000<5.rs2><5.rs1>000<5.rd>0110011) {
 
 INST(sll, 0000000<5.rs2><5.rs1>001<5.rd>0110011) {
     EXECUTE() {
-        unsigned amt = GPR[rs2] & 0x1F;
+        unsigned amt = GPR[rs2] & (XLEN - 1);
         GPR[rd] = GPR[rs1] << amt;
     }
 }
@@ -179,7 +179,7 @@ INST(xor, 0000000<5.rs2><5.rs1>100<5.rd>0110011) {
 
 INST(srl, 0000000<5.rs2><5.rs1>101<5.rd>0110011) {
     EXECUTE() {
-        unsigned amt = GPR[rs2] & 0x1F;
+        unsigned amt = GPR[rs2] & (XLEN - 1);
         GPR[rd] = GPR[rs1] >> amt;
     }
 }
@@ -187,7 +187,7 @@ INST(srl, 0000000<5.rs2><5.rs1>101<5.rd>0110011) {
 INST(sra, 0100000<5.rs2><5.rs1>101<5.rd>0110011) {
     EXECUTE() {
         signed_reg_t value_rs1 = GPR[rs1];
-        unsigned amt = GPR[rs2] & 0x1F;
+        unsigned amt = GPR[rs2] & (XLEN - 1);
         GPR[rd] = value_rs1 >> amt;
     }
 }

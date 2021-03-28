@@ -1,60 +1,104 @@
+// -*- c -*-
 
 INST(addiw, <12.imm12><5.rs1>000<5.rd>0011011) {
     EXECUTE() {
+	int32 src = GPR[rs1];
+	int32 val = src + simm32;
+	GPR[rd] = val;
     }
 }
 
 INST(slliw, 0000000<5.shamtw><5.rs1>001<5.rd>0011011) {
     EXECUTE() {
+	int32 src = GPR[rs1];
+	int32 val = src << shamtw;
+	GPR[rd] = val;
     }
 }
 
 INST(srliw, 0000000<5.shamtw><5.rs1>101<5.rd>0011011) {
     EXECUTE() {
+	uint32 src = GPR[rs1];
+	int32 val = src >> shamtw;
+	GPR[rd] = val;
     }
 }
 
 INST(sraiw, 0100000<5.shamtw><5.rs1>101<5.rd>0011011) {
     EXECUTE() {
+	int32 src = GPR[rs1];
+	int32 val = src >> shamtw;
+	GPR[rd] = val;
     }
 }
 
 INST(addw, 0000000<5.rs2><5.rs1>000<5.rd>0111011) {
     EXECUTE() {
+	int32 src1 = GPR[rs1];
+	int32 src2 = GPR[rs2];
+	int32 val = src1 + src2;
+	GPR[rd] = val;
     }
 }
 
 INST(subw, 0100000<5.rs2><5.rs1>000<5.rd>0111011) {
     EXECUTE() {
+	int32 src1 = GPR[rs1];
+	int32 src2 = GPR[rs2];
+	int32 val = src1 - src2;
+	GPR[rd] = val;
     }
 }
 
 INST(sllw, 0000000<5.rs2><5.rs1>001<5.rd>0111011) {
     EXECUTE() {
+        unsigned amt = GPR[rs2] & 31;
+	int32 src = GPR[rs1];
+	int32 val = src << amt;
+	GPR[rd] = val;
     }
 }
 
 INST(srlw, 0000000<5.rs2><5.rs1>101<5.rd>0111011) {
     EXECUTE() {
+        unsigned amt = GPR[rs2] & 31;
+	uint32 src = GPR[rs1];
+	int32  val = src >> amt;
+	GPR[rd] = val;
     }
 }
 
 INST(sraw, 0100000<5.rs2><5.rs1>101<5.rd>0111011) {
     EXECUTE() {
+        unsigned amt = GPR[rs2] & 31;
+	int32 src = GPR[rs1];
+	int32 val = src >> amt;
+	GPR[rd] = val;
     }
 }
 
 INST(ld, <12.imm12><5.rs1>011<5.rd>0000011) {
     EXECUTE() {
+        int64 data;
+        reg_t addr = GPR[rs1] + simm32;
+        MemoryAccess(Load, addr, &data, 8);
+        GPR[rd] = data;
     }
 }
 
 INST(lwu, <12.imm12><5.rs1>110<5.rd>0000011) {
     EXECUTE() {
+        uint32 data;
+        reg_t addr = GPR[rs1] + simm32;
+        MemoryAccess(Load, addr, &data, 4);
+        GPR[rd] = data;
     }
 }
 
 INST(sd, <7.imm12hi><5.rs2><5.rs1>011<5.imm12lo>0100011) {
     EXECUTE() {
+        uint64 data = GPR[rs2];
+        reg_t  addr = GPR[rs1] + simm32;
+        MemoryAccess(Store, addr, &data, 8);
     }
 }
