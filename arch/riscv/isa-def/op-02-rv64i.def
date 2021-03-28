@@ -1,0 +1,60 @@
+
+INST(addiw, <12.imm12><5.rs1>000<5.rd>0011011) {
+    EXECUTE() {
+    }
+}
+
+INST(slliw, 0000000<5.shamtw><5.rs1>001<5.rd>0011011) {
+    EXECUTE() {
+    }
+}
+
+INST(srliw, 0000000<5.shamtw><5.rs1>101<5.rd>0011011) {
+    EXECUTE() {
+    }
+}
+
+INST(sraiw, 0100000<5.shamtw><5.rs1>101<5.rd>0011011) {
+    EXECUTE() {
+    }
+}
+
+INST(addw, 0000000<5.rs2><5.rs1>000<5.rd>0111011) {
+    EXECUTE() {
+    }
+}
+
+INST(subw, 0100000<5.rs2><5.rs1>000<5.rd>0111011) {
+    EXECUTE() {
+    }
+}
+
+INST(sllw, 0000000<5.rs2><5.rs1>001<5.rd>0111011) {
+    EXECUTE() {
+    }
+}
+
+INST(srlw, 0000000<5.rs2><5.rs1>101<5.rd>0111011) {
+    EXECUTE() {
+    }
+}
+
+INST(sraw, 0100000<5.rs2><5.rs1>101<5.rd>0111011) {
+    EXECUTE() {
+    }
+}
+
+INST(ld, <12.imm12><5.rs1>011<5.rd>0000011) {
+    EXECUTE() {
+    }
+}
+
+INST(lwu, <12.imm12><5.rs1>110<5.rd>0000011) {
+    EXECUTE() {
+    }
+}
+
+INST(sd, <7.imm12hi><5.rs2><5.rs1>011<5.imm12lo>0100011) {
+    EXECUTE() {
+    }
+}

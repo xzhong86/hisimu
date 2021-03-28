@@ -4,3 +4,4 @@
 *.dump
 gen/
 
+riscv-opcodes

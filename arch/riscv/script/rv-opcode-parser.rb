@@ -1,4 +1,7 @@
 #!/usr/bin/env ruby
+#
+# https://github.com/riscv/riscv-opcodes.git
+#
 
 FieldInfo = Struct.new :hi, :lo, :name, :value
 class FieldInfo
