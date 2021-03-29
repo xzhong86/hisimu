@@ -25,5 +25,5 @@ build simple simulator:
    * Machine: MacBook Air 2020, Apple M1 SOC
    * Compiler: Apple clang version 12.0.0
    * Output format: Mach-O 64-bit executable arm64
-   * Speed: 69 MIPS
+   * Speed: 69 MIPS on hello-asm, 45 MIPS on array.
 

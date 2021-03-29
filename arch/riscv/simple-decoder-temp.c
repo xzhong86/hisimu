@@ -1,6 +1,7 @@
 
-#include <assert.h>
 #include <arch/riscv/cpu.h>
+#include <assert.h>
+#include <stdio.h>
 
 /*<%
 sout = StringIO.new 
@@ -32,5 +33,6 @@ void riscv_decode_exec_inst(CPUState *cpu, uint32_t code)
             return;
         }
     }
+    printf("unknown inst pc=%llx, code=%x\n", cpu->pc, code);
     assert(0);
 }

@@ -8,18 +8,19 @@
 using namespace NS_ExeLoader;
 using namespace NS_MemImage;
 
-//using ExeLoader::addr_t;
 using prop_t = ExeLoader::prop_t;
-//using ExeLoader::size_t;
 
-int main()
+int main(int argc, const char *argv[])
 {
     MemImage *mim = createMemImage("simple");
 
     // hello.elf is compiled from test/riscv/hello-asm
-    ExeLoader *loader = createExeLoader("hello.elf");
+    const char *fname = "hello.elf";
+    if (argc > 1)
+	fname = argv[1];
+    ExeLoader *loader = createExeLoader(fname);
     if (!loader) {
-	std::cout << "Load ELF file failed.\n";
+	std::cout << "Load ELF file '" << fname << "' failed.\n";
 	return 1;
     }
 
@@ -48,10 +49,15 @@ int main()
         mim->writeMem(pa, buf, size);
     };
 
-    //cpu_cb.beforeExecInst = [](CPU *cpu, uint32_t inst) {
-    //    std::cout << "exec PC=" << std::hex << cpu->getPC()
-    //              << ", inst=" << inst << std::endl;
-    //};
+    long num_inst = 0;
+    bool debug = false;
+    if (debug) {
+	cpu_cb.beforeExecInst = [&num_inst](CPU *cpu, uint32_t inst) {
+	    num_inst ++;
+	    std::cout << num_inst << ": exec PC=" << std::hex << cpu->getPC()
+		      << ", inst=" << inst << std::dec << std::endl;
+	};
+    }
     cpu->setCallBack(cpu_cb);
 
     std::cout << "Start simulation with PC=" << std::hex << loader->getEntryPoint()
