@@ -57,5 +57,7 @@ int main()
     std::cout << "Start simulation with PC=" << std::hex << loader->getEntryPoint()
 	      << std::dec << std::endl;
     cpu->setPC(loader->getEntryPoint());
-    cpu->step(1000 * 10000); // finish in 1.99 seconds, about 5MIPS speed.
+    int ninsts = 100 * 1000 * 1000;
+    cpu->step(ninsts);
+    std::cout << ninsts << " (" << ninsts / 1000000 << "M) Insts simulated.\n";
 }
