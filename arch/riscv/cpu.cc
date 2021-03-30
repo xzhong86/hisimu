@@ -16,3 +16,16 @@ CPU * CPU::getCPU(unsigned rv_id) {
     return g_riscv_cpu_map[rv_id];
 }
 
+
+#define Load  1
+#define Store 2
+
+extern "C"
+void riscv_memory_access(unsigned id, int type, uint64_t addr, void *buf, int size)
+{
+    CPU *cpu = CPU::getCPU(id);
+    if (type == Load)
+        cpu->getCB().readMemory(cpu, addr, buf, size);
+    else if (type == Store)
+        cpu->getCB().writeMemory(cpu, addr, buf, size);
+}

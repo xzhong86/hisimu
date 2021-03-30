@@ -27,9 +27,10 @@ typedef uint64_t uint64;
 
 #define Load  1
 #define Store 2
-extern void riscv_memory_access(CPUState *cpu, int type, uint64_t addr, void *buf, int size);
+extern void riscv_memory_access(unsigned id, int type, uint64_t addr, void *buf, int size);
 
 #define MemoryAccess(type, addr, buf, size) do {                        \
-        riscv_memory_access(cpu, (type), (addr), (buf), (size));        \
+	unsigned _id = CPU->cpu_id;					\
+        riscv_memory_access(_id, (type), (addr), (buf), (size));	\
     } while (0)
 

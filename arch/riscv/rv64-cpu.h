@@ -8,6 +8,8 @@
 
 #include <stdint.h>
 
+#define RISCV64_CPU 1
+
 #define XLEN 64
 
 typedef int64_t  signed_reg_t;
