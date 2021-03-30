@@ -11,8 +11,8 @@ cd $root/utils/isa-parser/
 cd $root/arch/riscv/
 [ -e gen/decode_exec.c ] || make
 
-cd $root/test/riscv/hello-asm/
-[ -e hello.dump ] || make hello.dump
+#cd $root/test/riscv/hello-asm/
+#[ -e hello.dump ] || make hello.dump
 
 mkdir -p $root/build
 cd $root/build

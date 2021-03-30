@@ -90,7 +90,7 @@ def gen_decode_file(out, isa)
 end
 
 def gen_decode_exec_file(out, isa)
-  $opts.headers.each { |h| out.puts "#include <#{h}>" }
+  $opts.headers.each { |h| out.puts "#include \"#{h}\"" }
   isa.insts.each{ |inst| inst.gen_decode_exec_fun(out); out.puts "" }
 end
 
@@ -125,7 +125,7 @@ isa = RiscvISAInfo.new(parser.insts)
 out = $opts.out ? File.open($opts.out, 'w') : $stdout
 
 if $opts.headers.empty?
-  $opts.headers = [ "arch/riscv/cpu.h", "arch/riscv/isa-helper.h" ]
+  $opts.headers = [ "../rv64-cpu.h", "../isa-helper.h" ]
 end
 
 

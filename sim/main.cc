@@ -1,12 +1,12 @@
 
 #include <arch/riscv/cpu.h>
-#include <base/elf-loader/ExeLoader.h>
-#include <base/mem-image/MemImage.h>
+#include <base/ExeLoader.h>
+#include <base/MemImage.h>
 
 #include <iostream>
 
-using namespace NS_ExeLoader;
-using namespace NS_MemImage;
+using namespace base;
+using namespace arch;
 
 using prop_t = ExeLoader::prop_t;
 
@@ -35,24 +35,23 @@ int main(int argc, const char *argv[])
 
     loader->loadFile();
 
-    using riscv::CPU;
-    CPU *cpu = new riscv::CPU();
-    CPU::CallBack cpu_cb;
+    GenericCPU *cpu = createGenericCPU<riscv::RV64CPU>();
+    GenericCPU::CallBack cpu_cb;
 
-    cpu_cb.fetchInst = [mim](CPU*,uint64_t pc,uint32_t *pinst) {
+    cpu_cb.fetchInst = [mim](GenericCPU*,uint64_t pc,uint32_t *pinst) {
         mim->readMem(pc, pinst, sizeof(*pinst));
     };
-    cpu_cb.readMemory = [mim](CPU*,uint64_t pa,void *buf,int size) {
+    cpu_cb.readMemory = [mim](GenericCPU*,uint64_t pa,void *buf,int size) {
         mim->readMem(pa, buf, size);
     };
-    cpu_cb.writeMemory = [mim](CPU*,uint64_t pa,void *buf,int size) {
+    cpu_cb.writeMemory = [mim](GenericCPU*,uint64_t pa,void *buf,int size) {
         mim->writeMem(pa, buf, size);
     };
 
     long num_inst = 0;
     bool debug = false;
     if (debug) {
-	cpu_cb.beforeExecInst = [&num_inst](CPU *cpu, uint32_t inst) {
+	cpu_cb.beforeExecInst = [&num_inst](GenericCPU *cpu, uint32_t inst) {
 	    num_inst ++;
 	    std::cout << num_inst << ": exec PC=" << std::hex << cpu->getPC()
 		      << ", inst=" << inst << std::dec << std::endl;

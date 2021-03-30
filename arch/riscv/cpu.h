@@ -2,65 +2,27 @@
 
 #pragma once
 
-#include <stdint.h>
-
-#ifdef __cplusplus
-namespace riscv {
-static const unsigned XLEN = 64;
-#else
-#define XLEN 64
-#endif
-
-typedef int64_t  signed_reg_t;
-typedef uint64_t unsigned_reg_t;
-typedef uint64_t reg_t;
-
-struct CPUState {
-    reg_t gpr[32];
-    reg_t pc;
-
-    struct CPUCSR *csr;
-
-    uint32_t cpu_id;
-};
-typedef struct CPUState CPUState;
-
-
-#ifdef __cplusplus
-} // namespace riscv
-
-//#include <typeinfo> // g++ bug?
-#include <functional>
+#include <arch/generic/cpu.h>
 
 namespace riscv {
 
-class CPU {
-    static uint32_t global_id_;
-    CPUState cpu_;
+class CPU : public arch::GenericCPU {
+    unsigned rv_cpu_id_;
 public:
     CPU();
 
-    CPUState *getCPU()      { return &cpu_; }
-    void setPC(uint64_t pc) { cpu_.pc = pc; }
-    uint64_t getPC() const  { return cpu_.pc; }
+    //======== common methods for RSIC-V 32bit and 64 bit cpu
 
-    void step(int n); // execute n instructions
-    //void run();       // run unlimited
+    static CPU * getCPU(unsigned rv_id); // get CPU by ID
 
-    struct CallBack {
-        std::function<void(CPU*,uint32_t)> beforeExecInst;
-        std::function<void(CPU*,uint32_t)> afterExecInst;
-        std::function<void(CPU*,uint64_t,uint32_t*)> fetchInst;
-        std::function<void(CPU*,uint64_t,void*,int)> readMemory;
-        std::function<void(CPU*,uint64_t,void*,int)> writeMemory;
-    };
-    void setCallBack(const CallBack &cb) { cpu_cb_ = cb; }
-    const CallBack &getCB() const { return cpu_cb_; }
-
-private:
-    CallBack cpu_cb_;
 };
 
+
+class RV32CPU;
+class RV64CPU;
+
+// create risc-v cpu like:
+// auto *cpu createGenericCPU<riscv::RV64CPU>();
+
 } // namespace riscv
-#endif // __cplusplus
 

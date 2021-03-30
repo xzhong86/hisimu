@@ -1,5 +1,5 @@
 
-#include <arch/riscv/cpu.h>
+#include "../rv64-cpu.h"
 #include <assert.h>
 #include <stdio.h>
 

@@ -1,5 +1,5 @@
 
-#include "cpu.h"
+#include "rv64-cpu.h"
 #include <string.h>
 #include <stdio.h>
 
