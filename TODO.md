@@ -2,15 +2,13 @@
 
 ## 下一步要做：
  1. 添加测试用例dhrystone，coremark(optional)，评测仿真速度。
+ 1. 添加命令行处理模块
+ 1. 使用RISCV的测试用例测试指令功能。[RISC-V tests](https://github.com/riscv/riscv-tests)
+
+## 远期计划：
  1. 添加基于ISA-Def的指令二进制生成API。
  1. 基于指令码生成API的指令测试代码。
  1. 完善disasm 反汇编流程，可以将执行的指令的反汇编打印出来。
- 1. [done] 添加utest测试框架
- 1. [done] 添加rv64i rv32m rv64m 指令
- 1. 添加命令行处理模块
-
-## 远期计划：
- 1. 使用RISCV的测试用例测试指令功能。[RISC-V tests](https://github.com/riscv/riscv-tests)
  1. 实现自动生成decode tree， 优化decoder代码。
  1. 分离 decode 过程和 execute 过程，添加指令decode info cache， 优化执行速度。
  1. 测试 clang 或者 mir 动态编译过程， 将多条指令的 执行代码合并到一起， 编译成一个bb块，整体执行。（跳转指令总是跳出来到环境里面）
@@ -43,4 +41,7 @@
  1. [done] 准备环境，如 GPR, MemoryAccess , SING_EXT 等 函数/宏，使指令代码可以编译通过
  1. [done] 通过简单的mask 匹配完成指令的解码和匹配 （decoder）
  1. [done] 整合编译，完成一个简单的ELF加载和执行。
+ 1. [done] 添加utest测试框架
+ 1. [done] 添加rv64i rv32m rv64m 指令
+ 1. [done] 添加基于数组的访存加运算测试用例
 
