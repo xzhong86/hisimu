@@ -26,4 +26,8 @@ build simple simulator:
    * Compiler: Apple clang version 12.0.0
    * Output format: Mach-O 64-bit executable arm64
    * Speed: 69 MIPS on hello-asm, 45 MIPS on array.
+ * v1.1, on intel server
+   * Machine: Intel(R) Xeon(R) Platinum 8158 CPU @ 3.00GHz
+   * Compiler: clang 6.0 on Ubuntu 18.04, with options '-O3 -march=native'
+   * Speed: 59.5 MIPS on hello. 50.7 MIPS on 'array', 39 MIPS without -march=native
 
