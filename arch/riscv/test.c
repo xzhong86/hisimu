@@ -20,5 +20,5 @@ int main()
     // INST(addi, <12.imm12><5.rs1>000<5.rd>0010011)
     riscv_decode_exec_inst(&cpu, 0x00500093);
 
-    printf("GPR[1]=%lld\n", cpu.gpr[1]);
+    printf("GPR[1]=%ld\n", cpu.gpr[1]);
 }

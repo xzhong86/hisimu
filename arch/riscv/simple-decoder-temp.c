@@ -33,6 +33,6 @@ void riscv_decode_exec_inst(CPUState *cpu, uint32_t code)
             return;
         }
     }
-    printf("unknown inst pc=%llx, code=%x\n", cpu->pc, code);
+    printf("unknown inst pc=%lx, code=%x\n", cpu->pc, code);
     assert(0);
 }

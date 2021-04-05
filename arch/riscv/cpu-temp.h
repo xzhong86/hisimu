@@ -8,7 +8,7 @@
 namespace riscv {
 
 template <class RV_CPU>
-class TemplCPU : public arch::GenericCPU {
+class TemplCPU : public riscv::CPU {
     RV_CPU cpu_;
 public:
     TemplCPU() {
