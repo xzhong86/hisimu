@@ -1,7 +1,9 @@
 # HiSimu Project
 
 High-Speed Simulator with document style code for instruction behavior, see the code in arch/riscv/isa-def/.
+
 高速文档式行为模型，目标是拥有文档一般的可读性和翻译执行的速度，目标速度500+MIPS。
+实现这个目标还需要另一个试验项目做支撑：[CJit](https://github.com/xzhong86/CJit)。
 
 Code example:
 ```c
